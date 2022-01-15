@@ -13,18 +13,46 @@
 
     <main>
 
-        <section class="container">
+        <section class="container border mt-3 py-3">
 
             <h1>Créer un compte</h1>
 
             <form class="row" action="" method="post">
                 <div class="col-md-6">
-                    <label for="prenom" class="form-label">Prénom</label>
-                    <input type="text" class="form-control" name="prenom" id="prenom" >
+                    <label for="prenom" class="form-label">Prénom*</label>
+                    <input type="text" class="form-control" name="prenom" id="prenom">
                 </div>
                 <div class="col-md-6">
-                    <label for="nom" class="form-label">Nom</label>
+                    <label for="nom" class="form-label">Nom*</label>
                     <input type="text" class="form-control" name="nom" id="nom" >
+                </div>
+                <div class="col-12">
+                    <label for="email" class="form-label">Email*</label>
+                    <input type="email" class="form-control" name="email" id="email" >
+                </div>
+                <div class="col-12">
+                    <label for="telephone" class="form-label">Telephone</label>
+                    <input type="tel" class="form-control" name="telephone" id="telephone" >
+                </div>
+                <div class="col-12">
+                    <label for="motDePasse" class="form-label">Mot de passe*</label>
+                    <input type="tel" class="form-control" name="motDePasse" id="motDePasse" >
+                </div>
+
+                <div class="col-12">
+                    <h2>Si vous êtes en possession d'un véhicule :</h2>
+                </div>
+                <div class="col-6">
+                    <label for="nomVehicule" class="form-label">Nom du véhicule</label>
+                    <input type="text" class="form-control" name="nomVehicule" id="nomVehicule" >
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="nombrePlace" class="form-label">Nom de place passager</label>
+                    <input type="number" class="form-control" name="nombrePlace" id="nombrePlace" >
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
                 </div>
 
 
