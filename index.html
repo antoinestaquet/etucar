@@ -9,6 +9,7 @@
     <!--Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/style.css">
 
 </head>
 
@@ -83,6 +84,81 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </section>
+
+        <section class="container border-bottom py-3">
+            <article>
+                <h3>
+                    Les derniers trajets ajoutés
+                </h3>
+    
+                <ul class="d-flex flex-wrap list-unstyled">
+                    <li class="col-4 text-center my-2">
+                        <a class="text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart1</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé1</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                    <li class="col-4 text-center my-2">
+                        <a class="col-4 text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart2</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé2</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                    <li class="col-4 text-center my-2">
+                        <a class="col-4 text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart3</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé3</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                    <!-- Element caché par défaut -->
+                    <li class="col-4 text-center my-2 collapse trajet-cache">
+                        <a class="col-4 text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart4</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé4</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                    <li class="col-4 text-center my-2 collapse trajet-cache">
+                        <a class="col-4 text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart5</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé5</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                    <li class="col-4 text-center my-2 collapse trajet-cache">
+                        <a class="col-4 text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart5</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé5</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                    <li class="col-4 text-center my-2 collapse trajet-cache">
+                        <a class="col-4 text-decoration-none text-dark border border-3 px-1 bg-light rounded-pill" href="" type="button">
+                            <span>Depart5</span>
+                            <span>&#8594;</span>
+                            <span>Arrivé5</span>
+                            <span>&#62;</span>
+                        </a>
+                    </li>
+                </ul>
+                <div>
+                    <button class="btn btn-primary" id="btn-trajet" type="button" data-bs-toggle="collapse" data-bs-target=".trajet-cache" aria-expanded="false">
+                        Afficher plus
+                    </button>
+                </div>
+                
+            </article>
+            
+        </section>
     </main>
 
     <!--Footer-->
@@ -99,6 +175,7 @@
         crossorigin="anonymous"></script>
     <script async src="scripts/recherche-trajet.js"></script>
     <script async src="scripts/emploi-du-temps.js"></script>
+    <script async src="scripts/bascule-afficher.js"></script>
 </body>
 
 </html>
