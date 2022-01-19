@@ -26,11 +26,15 @@ btnCode.onclick = function() {
 btnReset.onclick = function() {
     var mdp = document.getElementById('mdp').value
     var verif = document.getElementById('verif').value
-    if (mdp.localeCompare(verif) == 0){
+    var err = document.getElementById('mdperr')
+    if (mdp.localeCompare(verif) == 0){ //Implémenter vérification serveur
         var btnRedirection = document.getElementById('redirection')
+        err.classList.add("d-none")
         btnRedirection.classList.remove("d-none")
         setTimeout(() => {
             window.location.replace("connexion.html")
         }, 5000);
+    } else {
+        err.classList.remove("d-none")
     }
 }
