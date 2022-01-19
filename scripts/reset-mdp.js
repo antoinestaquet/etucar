@@ -8,7 +8,7 @@ const btnReset = document.getElementById('btnreset')
 
 btnEmail.onclick = function() {
     var mail = document.getElementById('emailtxt').value
-    if (mail.length > 2) {//à remplacer par "si le serveur retourne vrai car l'email correspond à un compte"
+    if (true) {//à remplacer par "si le serveur retourne vrai car l'email correspond à un compte"
         formEmail.classList.add("d-none")
         formCode.classList.remove("d-none")
     }
@@ -24,9 +24,13 @@ btnCode.onclick = function() {
 }
 
 btnReset.onclick = function() {
-    var mdp = document.getElementById('mdp')
-    var verif = document.getElementById('verif')
-    if (mdp == verif){
-        
+    var mdp = document.getElementById('mdp').value
+    var verif = document.getElementById('verif').value
+    if (mdp.localeCompare(verif) == 0){
+        var btnRedirection = document.getElementById('redirection')
+        btnRedirection.classList.remove("d-none")
+        setTimeout(() => {
+            window.location.replace("connexion.html")
+        }, 5000);
     }
 }
