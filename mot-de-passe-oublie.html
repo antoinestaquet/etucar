@@ -28,26 +28,26 @@
             <form id="email" class="row">
                 <div class="col-12">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" required>
+                    <input type="email" class="form-control" name="email" id="emailtxt" required>
                 </div>
                 <div class="col-12 mt-3">
                     <button id="btnemail" type="button" class="btn btn-primary">Récupérer mon mot de passe</button>
                 </div>
             </form>
 
-            <form id="code" class="row">
+            <form id="code" class="row d-none">
                 <div class="col-12">
                     <label class="form-label">Entrez le code que vous avez reçu par mail</label>
                 </div>
                 <div class="col-12 mt-2">
-                    <input type="text" class="form-control-sm" id="txtcode" required>
+                    <input type="text" class="form-control-sm" name="code" id="txtcode" required>
                 </div>
                 <div class="col-12 mt-2">
-                    <button id="btncode" class="btn btn-primary">Valider</button>
+                    <button id="btncode" type="button" class="btn btn-primary">Valider</button>
                 </div>
             </form>
 
-            <form id="reset" class="d-flex d-none">
+            <form id="reset" class="d-none d-flex">
                 <div class="row">
                     <div class="col-6">
                         <label class="form-label">Entrez votre nouveau mot de passe</label>
@@ -58,7 +58,7 @@
                         <input id="verif" type="password" class="form-control">
                     </div>
                     <div class="col-12 mt-3">
-                        <button id="btnreset" class="btn btn-primary">Valider</button>
+                        <button id="btnreset" type="button" class="btn btn-primary">Valider</button>
                     </div>
                 </div>
             </form>
