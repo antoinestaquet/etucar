@@ -25,47 +25,47 @@
 
             <h1>Mot de passe oublié</h1>
 
-            <form id="email" class="row">
+            <form id="email" class="row needs-validation" methode="" novalidate>
                 <div class="col-12">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" name="email" id="emailtxt" required>
                 </div>
                 <div class="col-12 mt-3">
-                    <button id="btnemail" type="button" class="btn btn-primary">Récupérer mon mot de passe</button>
+                    <button id="btnemail" type="submit" class="btn btn-primary">Récupérer mon mot de passe</button>
                 </div>
             </form>
 
-            <form id="code" class="row d-none">
+            <form id="code" class="row d-none needs-validation" novalidate>
                 <div class="col-12">
                     <label class="form-label">Entrez le code que vous avez reçu par mail</label>
-                    <input type="text" class="form-control-sm" name="code" id="txtcode" required>
+                    <input type="text" class="form-control" name="code" id="txtcode" required>
                 </div>
                 <div class="col-12 mt-2">
-                    <button id="btncode" type="button" class="btn btn-primary">Valider</button>
+                    <button id="btncode" type="submit" class="btn btn-primary">Valider</button>
                 </div>
             </form>
 
-            <form id="reset" class="d-none d-flex">
+            <form id="reset" class="d-none d-flex needs-validation" novalidate>
                 <div class="row">
                     <div class="col-6">
                         <label class="form-label">Entrez votre nouveau mot de passe</label>
-                        <input id="mdp" type="password" class="form-control">
+                        <input id="mdp" type="password" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Les mots de passe ne correspondent pas.
+                        </div>
                     </div>
                     <div class="col-6">
                         <label class="form-label">Confirmez votre nouveau mot de passe</label>
-                        <input id="verif" type="password" class="form-control">
+                        <input id="verif" type="password" class="form-control" required>
                     </div>
                     <div class="col-12 mt-3">
-                        <button id="btnreset" type="button" class="btn btn-primary">Valider</button>
+                        <button id="btnreset" type="submit" class="btn btn-primary">Valider</button>
                     </div>
                 </div>
             </form>
             <label class="p-3 mt-3 bg-success text-white d-none w-100" id="redirection">
                 Votre mot de passe a été modifié. Vous allez être redirigé vers la page de connexion.<br>
                 <i><a style="font-size: 9px;" class="text-white" href="connexion.html">Si vous n'êtes pas redirigé après 5 secondes, cliquez ici</a></i>
-            </label>
-            <label class="p-3 mt-3 bg-danger text-white d-none w-100" id="mdperr">
-                Les mots de passe ne correspondent pas
             </label>
 
 
