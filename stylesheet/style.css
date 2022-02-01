@@ -1,7 +1,27 @@
-.trajet-card{
-    min-height: 100px;
+/*
+    CSS spécifique aux trajets
+*/
+
+.recherche{
+    width: 100%;
+    max-width: 600px;
+    padding: 0 2rem 0 2rem;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+.img-trajet{
+    height: 40px;
+    width: 40px;
+}
+
+.border-trajet{
     border: 1px solid;
     border-radius: 2rem;
     align-items: center;
     background-color: lightblue;
+}
+
+.recherche p{
+    margin-bottom: 0;
 }
