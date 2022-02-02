@@ -15,11 +15,13 @@
     width: 40px;
 }
 
-.border-trajet{
-    border: 1px solid;
-    border-radius: 2rem;
-    align-items: center;
+.trajet{
     background-color: aliceblue;
+}
+
+.utilisateur:hover {
+    background-color:lightgrey;
+    opacity: 0.5;
 }
 
 .recherche p{
