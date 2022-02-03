@@ -1,0 +1,29 @@
+/*
+    CSS spécifique aux trajets
+*/
+
+.recherche{
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+.img-trajet{
+    height: 40px;
+    width: 40px;
+}
+
+.trajet{
+    background-color: aliceblue;
+}
+
+.utilisateur:hover {
+    background-color:lightgrey;
+    opacity: 0.5;
+}
+
+.recherche p{
+    margin-bottom: 0;
+}
