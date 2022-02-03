@@ -1,10 +1,14 @@
 /*
     CSS spécifique à ajout-trajet
 */
-
 #map {
     height: 90vh;
     width: 100%;
+}
+
+.autocomplete-container{
+    position: relative;
+    padding: 0;
 }
 
 .map-ui-container{
