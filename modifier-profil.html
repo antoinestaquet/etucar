@@ -47,6 +47,7 @@
                 </div>
             </div>
         </header>
+
         <section class="container border">
             <h1>Adresse mail</h1>
             <form id="email" class="row needs-validation" methode="" novalidate>
@@ -68,7 +69,7 @@
                     <input type="text" class="form-control" name="code" id="txtcode" required>
                 </div>
                 <div class="col-12 mt-2">
-                    <button id="btncode" type="submit" class="btn btn-primary">Valider</button>
+                    <button id="btncode" type="submit" class="btn btn-primary my-2">Valider</button>
                 </div>
             </form>
             <form id="validmail" class="row d-none">
@@ -90,10 +91,13 @@
                     <button id="btntel" type="submit" class="btn btn-primary">Valider</button>
                 </div>
             </form>
+            <form id="validtel" class="row d-none">
+                <h4 class="text-success">&check; Votre numéro de téléphone a été modifié.</h4>
+            </form>
             </section>
             <section class="my-2 container border">
                 <h1>Adresse</h1>
-                <form id="adress" class="row needs-validation" methode="" novalidate>
+                <form id="adresse" class="row needs-validation" methode="" novalidate>
                     <div class="col-12">
                         <label for="txt" class="form-label">Adresse</label>
                         <input type="text" class="form-control" name="adresstxt" id="inputAdresse" required>
@@ -108,14 +112,40 @@
                           <input type="text" class="form-control" id="inputPays">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="inputState">Code Postal</label>
-                            <input type="text" class="form-control" id="inputCodePostal">
+                            <label for="inputState">ZIP / Code Postal</label>
+                            <input type="text" class="form-control" id="inputZipPostal">
                           </div>
                       </div>
                     <div class="col-12 my-2">
-                        <button id="btntel" type="submit" class="btn btn-primary">Valider</button>
+                        <button id="btnadresse" type="submit" class="btn btn-primary">Valider</button>
                     </div>
                 </form>
+                <form id="validAdresse" class="row d-none">
+                    <h4 class="text-success">&check; Votre adresse a été modifiée.</h4>
+                </form>
+                </section>
+                <section class="container border">
+                    <h1>Mot de passe</h1>
+                    <form id="password" class="row needs-validation" methode="" novalidate>
+                        <div class="col-12">
+                            <label for="password" class="form-label">Entrez votre ancien mot de passe</label>
+                            <input type="password" class="form-control" name="password" id="oldpassword" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="password" class="form-label">Entrez votre nouveau mot de passe</label>
+                            <input type="password" class="form-control" name="password" id="newpassword" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="password" class="form-label">Confirmez votre nouveau mot de passe</label>
+                            <input type="password" class="form-control" name="password" id="confirmpassword" required>
+                        </div>
+                        <div class="col-12 my-3">
+                            <button id="btnpassword" type="submit" class="btn btn-primary">Valider</button>
+                        </div>
+                    </form>
+                    <form id="validpassword" class="row d-none">
+                        <h4 class="text-success">&check; Votre mot de passe a été modifié.</h4>
+                    </form>
                 </section>
         <footer class="footer mt-auto bg-light">
             <div class="text-muted text-center p-3">
@@ -126,5 +156,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+        <script async src="scripts/modifier-profil.js"></script>
         </body>
 </html>
