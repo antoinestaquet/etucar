@@ -1,3 +1,7 @@
+<!--
+    Utilisation de OpenStreetMap avec Leafletjs
+-->
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -11,13 +15,35 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet/style.css">
 
+    <!-- LEAFLET  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <!-- MAP QUEST  -->
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-core.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest-core.css" />
+
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    
-
     <main>
-
+        <section>
+            <div id="map">
+            </div>
+            <div class="map-ui-container border border-2">
+                <form id="form" class="row map-ui py-2">
+                    <input type="text" name="start" id="start" class="form-control mb-1" placeholder="Point de départ">
+                    <input type="text" name="end" id="destination" class="form-control mb-1"
+                        placeholder="Point d'arrivée">
+                    <button type="submit" class="btn btn-primary">Continuer</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <!--Footer-->
@@ -32,6 +58,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <!-- Script etucar-->
+    <script defer src="scripts/map.js"></script>
+
 </body>
 
 </html>
