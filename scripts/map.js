@@ -274,7 +274,7 @@ function validerTrajet() {
 
 window.onload = async function () {
     // Permet de passer outre les verifications | A enlever en production
-    const DEBUG = true;
+    const DEBUG = false;
     
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
