@@ -253,6 +253,9 @@ function validerTrajet(){
 
 
 window.onload = async function () {
+    // Permet de passer outre les verifications | A enlever en production
+    const DEBUG = true;
+
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
     // Initialise leaflet
@@ -275,11 +278,21 @@ window.onload = async function () {
     formTrajet.addEventListener('submit', event => {
         event.preventDefault();
 
-        // Demander si l'utilisateur est d'accord avec le trajet
-
-    
-
         // Passer au prochain formulaire
+        if(trajetActuel || DEBUG){
+            const sectTrajet = document.querySelector("#trajet");
+            sectTrajet.setAttribute("class", "d-none");
+            const infoSupp = document.querySelector("#info-supp");
+            infoSupp.classList.remove("d-none")
+        } else {
+            const alertTrajet = document.querySelector("#alert-trajet")
+            alertTrajet.textContent = "Veuillez d'abord choisir un trajet s'il vous plait!"
+            alertTrajet.classList.add("alert", "alert-info", "text-center")
+            setTimeout( () => {
+                alertTrajet.removeAttribute("class");
+                alertTrajet.textContent = ""
+            }, 5000 )
+        }
 
     })
 
@@ -319,36 +332,36 @@ window.onload = async function () {
         }
     }
 
-    // Initiliase l'autocomplete pour les adresses
-    addressAutocomplete(inputStart, (data) => { 
-        startPosition = data;
-        if(!startPosition){
-            return;
-        }
-        map.flyTo(new L.LatLng(startPosition.lat, startPosition.lon), 12);
-        L.marker(startPosition)
-        .addTo(map)
-        .bindPopup(startPosition.formatted)
-        .openPopup();
 
-        // Tente de generer une route si possible 
-        generateRoute();
-        
-    });
-    addressAutocomplete(inputEnd, (data) => { 
-        endPosition = data;
-        if(!endPosition){
-            return;
-        }
-        map.flyTo(new L.LatLng(endPosition.lat, endPosition.lon), 12);
-        L.marker(endPosition)
-        .addTo(map)
-        .bindPopup(endPosition.formatted)
-        .openPopup();
+    function ajoutLocation(input){
+        // Initialise l'autocomplete pour les adresses
+        return addressAutocomplete(input, (data) => { 
+            // Execute quand une nouvelle addresse a ete selectionnee
+            if(!data){
+                return;
+            }
+            map.flyTo(new L.LatLng(data.lat, data.lon), 12);
+            L.marker(data)
+            .addTo(map)
+            .bindPopup(data.formatted)
+            .openPopup();
 
-        // Tente de generer une route si possible 
-        generateRoute();
-    });
+            // Pas sur si c'est une bonne idee ou non d'avoir une condition pour ca
+            if (input.id.toLowerCase().localeCompare("start") == 0){
+                startPosition = data;
+            } else {
+                endPosition = data;
+            }
+    
+            // Tente de generer une route si possible 
+            generateRoute();
+            return data
+        });
+
+    }
+    
+    ajoutLocation(inputStart);
+    ajoutLocation(inputEnd);
 
 }
 
