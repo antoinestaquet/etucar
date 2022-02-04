@@ -2,7 +2,7 @@
     CSS spécifique aux trajets
 */
 
-.recherche {
+.small-container {
   width: 100%;
   max-width: 600px;
   padding: 15px;
@@ -24,6 +24,6 @@
   opacity: 0.5;
 }
 
-.recherche p {
+.small-container p {
   margin-bottom: 0;
 }
