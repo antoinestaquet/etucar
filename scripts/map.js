@@ -280,8 +280,8 @@ window.onload = async function () {
             L.marker(toWaypoint).addTo(map).bindPopup(`${endPosition.formatted}`);
 
             map.fitBounds([
-                [startPosition.lat, startPosition.lon],
-                [endPosition.lat, endPosition.lon]
+                fromWaypoint,
+                toWaypoint
             ])
 
             fetch(`https://api.geoapify.com/v1/routing?waypoints=${fromWaypoint.join(',')}|${toWaypoint.join(',')}&mode=drive&apiKey=${geoapifyKey}`)
@@ -307,8 +307,23 @@ window.onload = async function () {
     }
 
     // Initiliase l'autocomplete pour les adresses
-    addressAutocomplete(inputStart, (data) => { startPosition = data });
-    addressAutocomplete(inputEnd, (data) => { endPosition = data });
+    addressAutocomplete(inputStart, (data) => { 
+        startPosition = data;
+        map.flyTo(new L.LatLng(startPosition.lat, startPosition.lon), 12);
+        L.marker(startPosition)
+        .addTo(map)
+        .bindPopup(startPosition.formatted)
+        .openPopup();
+        
+    });
+    addressAutocomplete(inputEnd, (data) => { 
+        endPosition = data;
+        map.flyTo(new L.LatLng(endPosition.lat, endPosition.lon), 12);
+        L.marker(endPosition)
+        .addTo(map)
+        .bindPopup(endPosition.formatted)
+        .openPopup();
+    });
 }
 
 
