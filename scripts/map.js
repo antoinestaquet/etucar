@@ -224,11 +224,13 @@ async function addressAutocomplete(callback) {
 }
 
 window.onload = async function () {
+    const form = document.querySelector("#form")
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+    })
+
     // Recupère la clef api de mapquest
     let mqKey = await fetchApiKey("mapquest-api");
-
-    // Initiliase l'autocomplete pour les adresses
-    addressAutocomplete((data) => { console.log(data)});
 
     // Initialise leaflet
     L.mapquest.key = mqKey;
@@ -254,6 +256,9 @@ window.onload = async function () {
         start: 'Valenciennes, FR',
         end: 'Lille, FR'
     });
+
+    // Initiliase l'autocomplete pour les adresses
+    addressAutocomplete((data) => { console.log(data) });
 }
 
 

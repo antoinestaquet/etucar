@@ -32,14 +32,14 @@
             <div id="map">
             </div>
             <div class="map-ui-container border border-2">
-                <form id="form" class="row map-ui py-2">
+                <form id="form" class="row map-ui py-2" novalidate>
                     <div class="autocomplete-container mb-2">
                         <input type="text" name="start" id="start" class="autocomplete form-control"
-                            placeholder="Point de départ">
+                            placeholder="Point de départ" required>
                     </div>
                     <div class="autocomplete-container mb-2">
                         <input type="text" name="end" id="end" class="autocomplete form-control"
-                            placeholder="Point d'arrivée">
+                            placeholder="Point d'arrivée" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Continuer</button>
                 </form>
