@@ -2,6 +2,11 @@ const inputStart = document.querySelector("#start")
 const inputEnd = document.querySelector("#end")
 const form = document.querySelector("#form")
 
+// Constante requete geoapify
+const MIN_ADDRESS_LENGTH = 3
+const REQUEST_DELAY = 800
+const MIN_CONFIDENCE = 0.95
+
 // Charge une clef api suivant le paramètre
 async function fetchApiKey(nameApi) {
     const response = await fetch("settings/keys.json")
@@ -18,8 +23,6 @@ async function fetchApiKey(nameApi) {
 async function addressAutocomplete(inputElement, callback) {
 
     let geoapifyKey = await fetchApiKey("geoapify-api");
-    const MIN_ADDRESS_LENGTH = 3
-    const REQUEST_DELAY = 800
 
     /* Ecoute quand un utilisateur écrit dans le champ */
     let currentTimeout = null;
@@ -152,7 +155,6 @@ async function addressAutocomplete(inputElement, callback) {
 
         // Change input value and notify
         inputElement.value = currentItems[index].formatted;
-        callback(currentItems[index]);
     }
 
     function closeDropDownList() {
@@ -200,8 +202,6 @@ async function addressAutocomplete(inputElement, callback) {
         buttonElement.appendChild(svgElement);
     }
 
-    /* Close the autocomplete dropdown when the document is clicked. 
-  Skip, when a user clicks on the input field */
     /* Ferme le menu deroulant quand l'utilisateur clique en dehors du document.
     */
     document.addEventListener("click", function (e) {
@@ -219,32 +219,61 @@ async function addressAutocomplete(inputElement, callback) {
     });
 }
 
+/* Regarde la valeur de l'input et retourne la premiere addresse tel que sa confiance > MIN_CONFIDENCE 
+    Sinon, retourne null
+    */
+async function loadGeocode(inputName, geoapifyKey) {
+    let reponse = null;
+    if (inputName.value.length >= MIN_ADDRESS_LENGTH) {
+        reponse = fetch(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(inputName.value)}&apiKey=${geoapifyKey}`)
+            .then(resp => resp.json())
+            .then((geocodingResult) => {
+                if (geocodingResult.length === 0) {
+                    return null;
+                }
+                const address = geocodingResult["features"];
+                for (let i = 0; i < address.length; i++) {
+                    if (address[i]["properties"]["rank"]["confidence"] >= MIN_CONFIDENCE) {
+                        return address[i]["properties"]
+                    }
+                }
+                return null;
+            });
+        }
+    return reponse;
+}
+
 window.onload = async function () {
-    // Recupère les clef api
-    let mqKey = await fetchApiKey("mapquest-api");
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
     // Initialise leaflet
-
-    var map = L.map('map').setView([50.35464734683432, 3.4878042404234377], 10);
+    let map = L.map('map').setView([50.35464734683432, 3.4878042404234377], 10);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     // Recherche de route
+
     let startPosition = null;
     let endPosition = null;
 
+    // Si une valeur est resté sur la page
+    startPosition = await loadGeocode(inputStart, geoapifyKey);
+    endPosition = await loadGeocode(inputEnd, geoapifyKey);
+
+    // Quand la form est submit, affiche le trajet allant de inputStart à inputEnd
     form.addEventListener('submit', event => {
         event.preventDefault();
+
         if (startPosition != null && endPosition != null) {
+            let fromWaypoint = [startPosition.lat, startPosition.lon];
+            let toWaypoint = [endPosition.lat, endPosition.lon];
             
-            /*
-            fetch(`https://api.geoapify.com/v1/routing?waypoints=${fromWaypoint.join(',')}|${toWaypoint.join(',')}&mode=drive&apiKey=${myAPIKey}`)
+    
+            fetch(`https://api.geoapify.com/v1/routing?waypoints=${fromWaypoint.join(',')}|${toWaypoint.join(',')}&mode=drive&apiKey=${geoapifyKey}`)
                 .then(res => res.json())
                 .then(result => {
-
                     // Note! GeoJSON uses [longitude, latutude] format for coordinates
                     L.geoJSON(result, {
                         style: (feature) => {
@@ -253,20 +282,16 @@ window.onload = async function () {
                                 weight: 5
                             };
                         }
-                    }).bindPopup((layer) => {
-                        return `${layer.feature.properties.distance} ${layer.feature.properties.distance_units}, ${layer.feature.properties.time}`
                     }).addTo(map);
                 })
-                */
         }
     })
 
-
     // Initiliase l'autocomplete pour les adresses
-    addressAutocomplete(inputStart, (data) => { 
+    addressAutocomplete(inputStart, (data) => {
         console.log(data)
         startPosition = data
-         });
+    });
     addressAutocomplete(inputEnd, (data) => { endPosition = data });
 }
 
