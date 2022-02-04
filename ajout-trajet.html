@@ -49,17 +49,23 @@
             </div>
         </section>
 
-        <section id="info-supp" class="d-none container border border-2 shadow mt-3 py-3">
+        <section id="info-supp" class="d-none small-container border border-2 shadow mt-3 py-3">
 
             <h1>Compléter les informations</h1>
             <form id="form-info" class="row needs-validation" novalidate>
                 <div class="col-12">
-                    <label for="prix" class="form-label">Prix pour un passager</label>
-                    <input type="number" class="form-control" name="prix" id="prix" required>
+                    <label for="prix" class="form-label">Prix (&euro;) pour un passager</label>
+                    <input type="number" class="form-control" name="prix" id="prix" value="10" required>
                 </div>
-                <div class="col-12 mb-2">
+                <div class="col-12">
                     <label for="nombre-place" class="form-label">Nombre de place disponible</label>
-                    <input type="number" class="form-control" name="nombre-place" id="nombre-place" required>
+                    <input type="number" class="form-control" name="nombre-place" id="nombre-place" value="3" required>
+                </div>
+
+                <div class="col-12 mb-2">
+                    <!-- Ou alors une liste de choix prédéfinis + un textarea ?-->
+                    <label for="text-info">Information à l'attention des passagers</label>
+                    <textarea name="text-info" id="text-info" class="form-control"></textarea>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center">

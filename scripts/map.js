@@ -1,6 +1,7 @@
 const inputStart = document.querySelector("#start")
 const inputEnd = document.querySelector("#end")
 const formTrajet = document.querySelector("#form-trajet")
+const formSupp = document.querySelector("#form-info")
 
 // Constante requete geoapify
 const MIN_ADDRESS_LENGTH = 3
@@ -190,18 +191,6 @@ async function addressAutocomplete(inputElement, callback) {
 
     });
 
-    function addIcon(buttonElement) {
-        const svgElement = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-        svgElement.setAttribute('viewBox', "0 0 24 24");
-        svgElement.setAttribute('height', "24");
-
-        const iconElement = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-        iconElement.setAttribute("d", "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z");
-        iconElement.setAttribute('fill', 'currentColor');
-        svgElement.appendChild(iconElement);
-        buttonElement.appendChild(svgElement);
-    }
-
     /* Ferme le menu deroulant quand l'utilisateur clique en dehors du document.
     */
     document.addEventListener("click", function (e) {
@@ -217,6 +206,19 @@ async function addressAutocomplete(inputElement, callback) {
             inputElement.dispatchEvent(event);
         }
     });
+}
+
+
+function addIcon(buttonElement) {
+    const svgElement = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+    svgElement.setAttribute('viewBox', "0 0 24 24");
+    svgElement.setAttribute('height', "24");
+
+    const iconElement = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+    iconElement.setAttribute("d", "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z");
+    iconElement.setAttribute('fill', 'currentColor');
+    svgElement.appendChild(iconElement);
+    buttonElement.appendChild(svgElement);
 }
 
 /* Regarde la valeur de l'input et retourne la premiere addresse tel que sa confiance > MIN_CONFIDENCE 
@@ -247,14 +249,14 @@ async function loadGeocode(inputName, geoapifyKey) {
  * Fonction demandant à l'utilisateur s'il souhaite continuer avec le trajet actuel
  */
 
-function validerTrajet(){
+function validerTrajet() {
 
 }
 
 
 window.onload = async function () {
     // Permet de passer outre les verifications | A enlever en production
-    const DEBUG = true;
+    const DEBUG = false;
 
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
@@ -275,11 +277,12 @@ window.onload = async function () {
     startPosition = await loadGeocode(inputStart, geoapifyKey);
     endPosition = await loadGeocode(inputEnd, geoapifyKey);
 
+    // Ecouteur d'evenement sur le formulaire depart / arrivee
     formTrajet.addEventListener('submit', event => {
         event.preventDefault();
 
         // Passer au prochain formulaire
-        if(trajetActuel || DEBUG){
+        if (trajetActuel || DEBUG) {
             const sectTrajet = document.querySelector("#trajet");
             sectTrajet.setAttribute("class", "d-none");
             const infoSupp = document.querySelector("#info-supp");
@@ -293,6 +296,18 @@ window.onload = async function () {
                 alertTrajet.textContent = ""
             }, 5000 )
         }
+    })
+
+    // Ecouteur d'evenement sur le formulaire d'information supplémentaire
+    formSupp.addEventListener('submit', event => {
+        event.preventDefault();
+        /*
+        if(!formSupp.checkValidity()){
+            event.preventDefault()
+        }
+            Realiser le post manuellement avec les informations necessaires
+        */
+        formSupp.classList.add("was-validated")
 
     })
 
@@ -333,33 +348,33 @@ window.onload = async function () {
     }
 
 
-    function ajoutLocation(input){
+    function ajoutLocation(input) {
         // Initialise l'autocomplete pour les adresses
-        return addressAutocomplete(input, (data) => { 
+        return addressAutocomplete(input, (data) => {
             // Execute quand une nouvelle addresse a ete selectionnee
-            if(!data){
+            if (!data) {
                 return;
             }
             map.flyTo(new L.LatLng(data.lat, data.lon), 12);
             L.marker(data)
-            .addTo(map)
-            .bindPopup(data.formatted)
-            .openPopup();
+                .addTo(map)
+                .bindPopup(data.formatted)
+                .openPopup();
 
             // Pas sur si c'est une bonne idee ou non d'avoir une condition pour ca
-            if (input.id.toLowerCase().localeCompare("start") == 0){
+            if (input.id.toLowerCase().localeCompare("start") == 0) {
                 startPosition = data;
             } else {
                 endPosition = data;
             }
-    
+
             // Tente de generer une route si possible 
             generateRoute();
             return data
         });
 
     }
-    
+
     ajoutLocation(inputStart);
     ajoutLocation(inputEnd);
 
