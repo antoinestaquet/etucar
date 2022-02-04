@@ -234,12 +234,12 @@ async function loadGeocode(inputName, geoapifyKey) {
                 const address = geocodingResult["features"];
                 for (let i = 0; i < address.length; i++) {
                     if (address[i]["properties"]["rank"]["confidence"] >= MIN_CONFIDENCE) {
-                        return address[i]["properties"]
+                        return address[i]["properties"];
                     }
                 }
-                return null;
+                return null
             });
-        }
+    }
     return reponse;
 }
 
@@ -255,6 +255,7 @@ window.onload = async function () {
 
     // Recherche de route
 
+    let trajetActuel = null;
     let startPosition = null;
     let endPosition = null;
 
@@ -262,37 +263,51 @@ window.onload = async function () {
     startPosition = await loadGeocode(inputStart, geoapifyKey);
     endPosition = await loadGeocode(inputEnd, geoapifyKey);
 
-    // Quand la form est submit, affiche le trajet allant de inputStart à inputEnd
     form.addEventListener('submit', event => {
         event.preventDefault();
         generateRoute();
     })
 
-    function generateRoute(){
+    generateRoute()
+
+    function generateRoute() {
         if (startPosition != null && endPosition != null) {
             let fromWaypoint = [startPosition.lat, startPosition.lon];
             let toWaypoint = [endPosition.lat, endPosition.lon];
+
+            /* Ajout de marker */
+            L.marker(fromWaypoint).addTo(map).bindPopup(`${startPosition.formatted}`);
+            L.marker(toWaypoint).addTo(map).bindPopup(`${endPosition.formatted}`);
+
+            map.fitBounds([
+                [startPosition.lat, startPosition.lon],
+                [endPosition.lat, endPosition.lon]
+            ])
+
             fetch(`https://api.geoapify.com/v1/routing?waypoints=${fromWaypoint.join(',')}|${toWaypoint.join(',')}&mode=drive&apiKey=${geoapifyKey}`)
                 .then(res => res.json())
                 .then(result => {
-                    // Note! GeoJSON uses [longitude, latutude] format for coordinates
-                    L.geoJSON(result, {
+                    // S'il existe déjà un trajet, on le supprime :
+                    if (trajetActuel) {
+                        map.removeLayer(trajetActuel)
+                    }
+
+                    trajetActuel = L.geoJSON(result, {
                         style: (feature) => {
                             return {
                                 color: "rgba(20, 137, 255, 0.7)",
                                 weight: 5
                             };
                         }
-                    }).addTo(map);
+                    }).addTo(map)
+                        .bindPopup(`${result.features[0].properties.distance / 1000} kilomètres, environ ${Math.round(result.features[0].properties.time / 60)} minutes de trajet`)
+                        .openPopup();
                 })
         }
     }
 
     // Initiliase l'autocomplete pour les adresses
-    addressAutocomplete(inputStart, (data) => {
-        console.log(data)
-        startPosition = data
-    });
+    addressAutocomplete(inputStart, (data) => { startPosition = data });
     addressAutocomplete(inputEnd, (data) => { endPosition = data });
 }
 
