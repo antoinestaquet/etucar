@@ -53,32 +53,88 @@
 
             <h1>Compléter les informations</h1>
             <form id="form-info" class="row needs-validation" novalidate>
-                <div class="col-12">
+                <div class="col-12 mb-3">
                     <label for="prix" class="form-label">Prix (&euro;) pour un passager</label>
                     <input type="number" class="form-control" name="prix" id="prix" value="10" required>
                 </div>
-                <div class="col-12">
+                <div class="col-12 mb-3">
                     <label for="nombre-place" class="form-label">Nombre de place disponible</label>
                     <input type="number" class="form-control" name="nombre-place" id="nombre-place" value="3" required>
                 </div>
 
-                <div class="col-12 mb-2">
+                <div class="col-12 mb-3">
                     <!-- Ou alors une liste de choix prédéfinis + un textarea ?-->
-                    <label for="text-info">Information à l'attention des passagers</label>
-                    <textarea name="text-info" id="text-info" class="form-control"></textarea>
+                    <label for="info-pour-passager">Information à l'attention des passagers</label>
+                    <textarea name="info-pour-passager" id="info-pour-passager" class="form-control"></textarea>
                 </div>
 
                 <div class="col-12 d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary">
-                        Finaliser l'ajout du trajet
+                        Verifier les informations
                     </button>
                 </div>
-                
 
             </form>
 
         </section>
 
+        <section id="verification" class="d-none small-container border border-2 shadow mt-3 py-3">
+            <form id="form-verif" class="row needs-validation" novalidate>
+                <div class="mb-3 row">
+                    <label for="verif-depart" class="col-sm-4 col-form-label">
+                        Lieu de départ
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext" name="verif-depart" id="verif-depart" value="">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="verif-arrivee" class="col-sm-4 col-form-label">
+                        Lieu d'arrivée
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext" name="verif-arrivee" id="verif-arrivee" value="">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="verif-prix" class="col-sm-4 col-form-label">
+                        Prix (&euro;) pour un passager
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext" name="verif-prix" id="verif-prix" value="">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="verif-place" class="col-sm-4 col-form-label">
+                        Nombre de place disponible
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control-plaintext" name="verif-place" id="verif-place" value="">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="verif-info-passager" class="col-sm-4 col-form-label">
+                        Information à l'attention des passagers
+                    </label>
+                    <div class="col-sm-8">
+                        <textarea readonly class="form-control-plaintext" name="verif-info-passager" id="verif-info-passager"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-6 d-flex justify-content-center mb-3">
+                <button type="button" class="btn btn-secondary" id="btn-annuler-verif">
+                    Annuler
+                </button>
+            </div>
+
+                <div class="col-6 d-flex justify-content-center mb-3">
+                    
+                    <button type="submit" class="btn btn-primary">
+                        Confirmer le trajet
+                    </button>
+                </div>
+            </form>
+        </section>
 
     </main>
 

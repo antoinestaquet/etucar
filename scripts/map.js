@@ -2,6 +2,7 @@ const inputStart = document.querySelector("#start")
 const inputEnd = document.querySelector("#end")
 const formTrajet = document.querySelector("#form-trajet")
 const formSupp = document.querySelector("#form-info")
+const formVerif = document.querySelector("#form-verif")
 
 // Constante requete geoapify
 const MIN_ADDRESS_LENGTH = 3
@@ -273,7 +274,7 @@ function validerTrajet() {
 
 window.onload = async function () {
     // Permet de passer outre les verifications | A enlever en production
-    const DEBUG = false;
+    const DEBUG = true;
     
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
@@ -314,19 +315,6 @@ window.onload = async function () {
                 alertTrajet.textContent = ""
             }, 5000)
         }
-    })
-
-    // Ecouteur d'evenement sur le formulaire d'information supplémentaire
-    formSupp.addEventListener('submit', event => {
-        event.preventDefault();
-        /*
-        if(!formSupp.checkValidity()){
-            event.preventDefault()
-        }
-            Realiser le post manuellement avec les informations necessaires
-        */
-        formSupp.classList.add("was-validated")
-
     })
 
     function generateRoute() {
@@ -457,6 +445,48 @@ window.onload = async function () {
 
     ajoutLocation(inputStart);
     ajoutLocation(inputEnd);
+
+    // Ecouteur d'evenement sur le formulaire d'information supplémentaire
+    formSupp.addEventListener('submit', event => {
+        event.preventDefault();
+
+        if(formSupp.checkValidity()){
+            
+            const infoSupp = document.querySelector("#info-supp");
+            infoSupp.classList.add("d-none")
+            const verfication = document.querySelector("#verification");
+            verfication.classList.remove("d-none");
+
+            // remplir la form de validation :
+
+            const verifDepart  = document.querySelector("#verif-depart");
+            verifDepart.value  = startPosition.formatted;
+            const verifArrivee = document.querySelector("#verif-arrivee");
+            verifArrivee.value = endPosition.formatted;
+            const verifPrix = document.querySelector("#verif-prix");
+            verifPrix.value = document.querySelector("#prix").value;
+            const verifPlace = document.querySelector("#verif-place");
+            verifPlace.value = document.querySelector("#nombre-place").value;
+            const verifInfoPassager = document.querySelector("#verif-info-passager");
+            verifInfoPassager.value = document.querySelector("#info-pour-passager").value;
+
+
+        }
+        
+        formSupp.classList.add("was-validated")
+    })
+
+    // Partie verification
+
+    // Si l'utilisateur ne valide pas 
+    const bouttonAnnuler = document.querySelector("#btn-annuler-verif")
+    bouttonAnnuler.onclick = function() {
+        formTrajet.reset();
+        formSupp.reset();
+        formVerif.reset();
+        window.location.assign("index.html")
+    }
+
 
 }
 
