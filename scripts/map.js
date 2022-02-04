@@ -309,6 +309,9 @@ window.onload = async function () {
     // Initiliase l'autocomplete pour les adresses
     addressAutocomplete(inputStart, (data) => { 
         startPosition = data;
+        if(!startPosition){
+            return;
+        }
         map.flyTo(new L.LatLng(startPosition.lat, startPosition.lon), 12);
         L.marker(startPosition)
         .addTo(map)
@@ -318,6 +321,9 @@ window.onload = async function () {
     });
     addressAutocomplete(inputEnd, (data) => { 
         endPosition = data;
+        if(!endPosition){
+            return;
+        }
         map.flyTo(new L.LatLng(endPosition.lat, endPosition.lon), 12);
         L.marker(endPosition)
         .addTo(map)
