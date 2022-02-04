@@ -245,6 +245,23 @@ async function loadGeocode(inputName, geoapifyKey) {
     return reponse;
 }
 
+/*
+    Retourne la location associee aux coordonnee 
+*/
+async function reverseGeocode(lat, lon, geoapifyKey) {
+    let reponse = null;
+    reponse = fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${geoapifyKey}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.features.length) {
+                return result.features[0].properties;
+            } else {
+                return null;
+            }
+        });
+    return reponse;
+}
+
 /**
  * Fonction demandant à l'utilisateur s'il souhaite continuer avec le trajet actuel
  */
@@ -257,7 +274,7 @@ function validerTrajet() {
 window.onload = async function () {
     // Permet de passer outre les verifications | A enlever en production
     const DEBUG = false;
-
+    
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
     // Initialise leaflet
@@ -270,8 +287,9 @@ window.onload = async function () {
     // Recherche de route
 
     let trajetActuel = null;
-    let startPosition = null;
-    let endPosition = null;
+    let startPosition = null; let startMarker = null;
+    let endPosition = null; let endMarker = null;
+
 
     // Si une valeur est resté sur la page
     startPosition = await loadGeocode(inputStart, geoapifyKey);
@@ -291,10 +309,10 @@ window.onload = async function () {
             const alertTrajet = document.querySelector("#alert-trajet")
             alertTrajet.textContent = "Veuillez d'abord choisir un trajet s'il vous plait!"
             alertTrajet.classList.add("alert", "alert-info", "text-center")
-            setTimeout( () => {
+            setTimeout(() => {
                 alertTrajet.removeAttribute("class");
                 alertTrajet.textContent = ""
-            }, 5000 )
+            }, 5000)
         }
     })
 
@@ -315,10 +333,6 @@ window.onload = async function () {
         if (startPosition != null && endPosition != null) {
             let fromWaypoint = [startPosition.lat, startPosition.lon];
             let toWaypoint = [endPosition.lat, endPosition.lon];
-
-            /* Ajout de marker */
-            L.marker(fromWaypoint).addTo(map).bindPopup(`${startPosition.formatted}`);
-            L.marker(toWaypoint).addTo(map).bindPopup(`${endPosition.formatted}`);
 
             map.fitBounds([
                 fromWaypoint,
@@ -341,7 +355,30 @@ window.onload = async function () {
                             };
                         }
                     }).addTo(map)
-                        .bindPopup(`${result.features[0].properties.distance / 1000} kilomètres, environ ${Math.round(result.features[0].properties.time / 60)} minutes de trajet`)
+                        .bindPopup(() => {
+                            // Round pour enlever les secondes
+                            let minute = result.features[0].properties.time / 60;
+                            let heure = 0;
+                            let duree = "";
+                            if (minute > 60) {
+                                heure = minute / 60;
+                                minute -= heure * 60;
+                                heure = Math.round(heure);
+                            }
+                            minute = Math.round(minute);
+                            if (heure != 0) {
+                                if (minute == 0) {
+                                    duree = `${heure} h`;
+                                } else {
+                                    duree = `${heure} h ${minute} min`;
+                                }
+
+                            } else {
+                                duree = `${minute} min`;
+                            }
+
+                            return `<h1 class="fs-3"> ${duree} </h1> <div class="text-muted">${Math.round(result.features[0].properties.distance / 1000)} kilomètres</div> `
+                        })
                         .openPopup();
                 })
         }
@@ -356,15 +393,58 @@ window.onload = async function () {
                 return;
             }
             map.flyTo(new L.LatLng(data.lat, data.lon), 12);
-            L.marker(data)
-                .addTo(map)
-                .bindPopup(data.formatted)
-                .openPopup();
 
-            // Pas sur si c'est une bonne idee ou non d'avoir une condition pour ca
             if (input.id.toLowerCase().localeCompare("start") == 0) {
+
+                if (startMarker != undefined) {
+                    startMarker.setLatLng(data);
+                    startMarker.setPopupContent(data.formatted);
+                } else {
+                    startMarker = L.marker(data, { draggable: 'true' })
+                        .addTo(map)
+                        .bindPopup(data.formatted)
+                        .openPopup();
+
+                    startMarker.on('dragend', function (event) {
+                        let newMarker = event.target;
+                        let newPosition = newMarker.getLatLng();
+
+                        reverseGeocode(newPosition.lat, newPosition.lng, geoapifyKey).then((data) => {
+                            startMarker.setPopupContent(data.formatted)
+                            startPosition = data;
+                            generateRoute();
+                        });
+
+                        startMarker.setLatLng(new L.LatLng(newPosition.lat, newPosition.lng));
+
+                    })
+                }
+
                 startPosition = data;
             } else {
+
+                if (endMarker != undefined) {
+                    endMarker.setLatLng(data);
+                    endMarker.setPopupContent(data.formatted);
+                } else {
+                    endMarker = L.marker(data, { draggable: 'true' })
+                        .addTo(map)
+                        .bindPopup(data.formatted)
+                        .openPopup();
+
+                    endMarker.on('dragend', function (event) {
+                        let newMarker = event.target;
+                        let newPosition = newMarker.getLatLng();
+
+                        reverseGeocode(newPosition.lat, newPosition.lng, geoapifyKey ).then(data => {
+                            endMarker.setPopupContent(data.formatted)
+                            endPosition = data;
+                            generateRoute();
+                        });
+                        endMarker.setLatLng(new L.LatLng(newPosition.lat, newPosition.lng));
+                    })
+                }
+
                 endPosition = data;
             }
 
