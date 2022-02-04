@@ -265,12 +265,13 @@ window.onload = async function () {
     // Quand la form est submit, affiche le trajet allant de inputStart à inputEnd
     form.addEventListener('submit', event => {
         event.preventDefault();
+        generateRoute();
+    })
 
+    function generateRoute(){
         if (startPosition != null && endPosition != null) {
             let fromWaypoint = [startPosition.lat, startPosition.lon];
             let toWaypoint = [endPosition.lat, endPosition.lon];
-            
-    
             fetch(`https://api.geoapify.com/v1/routing?waypoints=${fromWaypoint.join(',')}|${toWaypoint.join(',')}&mode=drive&apiKey=${geoapifyKey}`)
                 .then(res => res.json())
                 .then(result => {
@@ -285,7 +286,7 @@ window.onload = async function () {
                     }).addTo(map);
                 })
         }
-    })
+    }
 
     // Initiliase l'autocomplete pour les adresses
     addressAutocomplete(inputStart, (data) => {
