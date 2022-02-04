@@ -1,6 +1,8 @@
 /*
     CSS spécifique à ajout-trajet
 */
+
+/* Section trajet*/
 #map {
   height: 90vh;
   width: 100%;
@@ -61,7 +63,7 @@
 }
 
 .map-ui-container {
-  max-width: 300px;
+  max-width: 600px;
   width: 90%;
   background-color: #ffff;
   position: absolute;
@@ -78,5 +80,11 @@
 }
 
 .leaflet-top {
-  margin-top: 150px;
+  margin-top: 300px;
 }
+
+/* Fin section trajet*/
+
+/* Section information supplementaire */
+
+

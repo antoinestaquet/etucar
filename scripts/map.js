@@ -1,6 +1,6 @@
 const inputStart = document.querySelector("#start")
 const inputEnd = document.querySelector("#end")
-const form = document.querySelector("#form")
+const formTrajet = document.querySelector("#form-trajet")
 
 // Constante requete geoapify
 const MIN_ADDRESS_LENGTH = 3
@@ -243,6 +243,15 @@ async function loadGeocode(inputName, geoapifyKey) {
     return reponse;
 }
 
+/**
+ * Fonction demandant à l'utilisateur s'il souhaite continuer avec le trajet actuel
+ */
+
+function validerTrajet(){
+
+}
+
+
 window.onload = async function () {
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
@@ -250,7 +259,7 @@ window.onload = async function () {
     let map = L.map('map').setView([50.35464734683432, 3.4878042404234377], 10);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; <a href="https://www.geoapify.com/term-and-conditions">Powered by Geoapify</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     // Recherche de route
@@ -263,12 +272,16 @@ window.onload = async function () {
     startPosition = await loadGeocode(inputStart, geoapifyKey);
     endPosition = await loadGeocode(inputEnd, geoapifyKey);
 
-    form.addEventListener('submit', event => {
+    formTrajet.addEventListener('submit', event => {
         event.preventDefault();
-        generateRoute();
-    })
 
-    generateRoute()
+        // Demander si l'utilisateur est d'accord avec le trajet
+
+    
+
+        // Passer au prochain formulaire
+
+    })
 
     function generateRoute() {
         if (startPosition != null && endPosition != null) {
@@ -317,6 +330,9 @@ window.onload = async function () {
         .addTo(map)
         .bindPopup(startPosition.formatted)
         .openPopup();
+
+        // Tente de generer une route si possible 
+        generateRoute();
         
     });
     addressAutocomplete(inputEnd, (data) => { 
@@ -329,7 +345,11 @@ window.onload = async function () {
         .addTo(map)
         .bindPopup(endPosition.formatted)
         .openPopup();
+
+        // Tente de generer une route si possible 
+        generateRoute();
     });
+
 }
 
 

@@ -30,11 +30,11 @@
 
 <body class="d-flex flex-column min-vh-100">
     <main>
-        <section>
+        <section id="trajet">
             <div id="map">
             </div>
             <div class="map-ui-container border border-2">
-                <form id="form" class="row map-ui py-2" autocomplete="off" novalidate>
+                <form id="form-trajet" class="row map-ui py-2" autocomplete="off" novalidate>
                     <div class="autocomplete-container mb-2">
                         <input type="text" name="start" id="start" class="autocomplete form-control"
                             placeholder="Point de départ" required>
@@ -47,6 +47,12 @@
                 </form>
             </div>
         </section>
+
+        <section id="info-supp" class="d-none">
+
+        </section>
+
+
     </main>
 
     <!--Footer-->
