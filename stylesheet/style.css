@@ -1,63 +1,29 @@
 /*
-    CSS spécifique à ajout-trajet
-*/
-#map {
-    height: 90vh;
-    width: 100%;
-}
-
-.autocomplete-container{
-    position: relative;
-    padding: 0;
-}
-
-.map-ui-container{
-    max-width: 300px;
-    width: 90%;
-    background-color: #ffff;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 999;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-    border-radius: 5px;
-}
-
-.map-ui{
-    width: 90%;
-    margin: auto;
-}
-
-.leaflet-top {
-    margin-top: 150px;
-}
-
-/*
     CSS spécifique aux trajets
 */
 
-.recherche{
-    width: 100%;
-    max-width: 600px;
-    padding: 15px;
-    margin: auto;
-    margin-bottom: 2rem;
+.recherche {
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 
-.img-trajet{
-    height: 40px;
-    width: 40px;
+.img-trajet {
+  height: 40px;
+  width: 40px;
 }
 
-.trajet{
-    background-color: aliceblue;
+.trajet {
+  background-color: aliceblue;
 }
 
 .utilisateur:hover {
-    background-color:lightgrey;
-    opacity: 0.5;
+  background-color: lightgrey;
+  opacity: 0.5;
 }
 
-.recherche p{
-    margin-bottom: 0;
+.recherche p {
+  margin-bottom: 0;
 }
