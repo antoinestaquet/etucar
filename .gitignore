@@ -1,1 +1,7 @@
-settings/*
+.vscode
+
+# front end
+Client/settings/*
+
+# back end
+RestAPI/node_modules
