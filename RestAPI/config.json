@@ -1,0 +1,9 @@
+{
+    "db": {
+        "user": "antoine",
+        "database": "etucar",
+        "password": "etucar",
+        "port": 5432
+    },
+    "token_secret": "Mon_Incroyable_Token"
+}

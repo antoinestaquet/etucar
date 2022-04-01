@@ -16,16 +16,16 @@ ListePassager(PK: idUtilisateur,PK: idTrajet)
 CREATE TABLE IF NOT EXISTS utilisateur(
     id BIGINT GENERATED ALWAYS AS IDENTITY
         PRIMARY KEY,
-    id_vehicule BIGINT,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
     mot_de_passe VARCHAR(255) NOT NULL,
     telephone CHAR(15),
     note SMALLINT
 );
 
 -- @BLOCK
-ALTER TABLE utilisateur ADD CONSTRAINT fk_id_vehicule FOREIGN KEY (id_vehicule) REFERENCES vehicule(id);
+ALTER TABLE utilisateur ADD email VARCHAR(50) NOT NULL UNIQUE;
 
 -- @BLOCK
 CREATE TABLE IF NOT EXISTS vehicule(
@@ -54,9 +54,6 @@ CREATE TABLE IF NOT EXISTS trajet(
     note INT, 
     FOREIGN KEY (id_conducteur) REFERENCES utilisateur(id)
 );
-
--- @BLOCK
-DROP TABLE trajet;
 
 -- @BLOCK
 CREATE TABLE IF NOT EXISTS liste_passager(
