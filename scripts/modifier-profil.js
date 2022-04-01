@@ -3,8 +3,6 @@ const codeMailForm = document.getElementById("code");
 const validMailForm = document.getElementById("validmail");
 const telForm = document.getElementById("tel");
 const telValidForm = document.getElementById("validtel");
-const adresseForm = document.getElementById("adresse");
-const adresseValidForm = document.getElementById("validAdresse")
 const passwordForm = document.getElementById("password")
 const passwordValidForm = document.getElementById("validpassword")
 
@@ -44,19 +42,6 @@ telForm.addEventListener('submit', (e) => {
     if (tel.localeCompare(telverif) && !(/[a-z]/i.test(tel)) && tel.length > 0){
         telForm.classList.add("d-none")
         telValidForm.classList.remove("d-none")
-    }
-})
-
-//Adresse
-adresseForm.addEventListener('submit', (e) => {
-    var adresse = String(document.getElementById("inputAdresse").value);
-    var ville = String(document.getElementById("inputVille").value);
-    var pays = String(document.getElementById("inputPays").value);
-    var zipPostal = String(document.getElementById("inputZipPostal").value);
-    e.preventDefault();
-    if (true || (adresse.checkValidity() && ville.checkValidity() &&  pays.checkValidity() && zipPostal.checkValidity())){ //Remplacer par "vérifier si l'adresse est correcte"
-        adresseForm.classList.add("d-none");
-        adresseValidForm.classList.remove("d-none")
     }
 })
 

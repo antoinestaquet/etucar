@@ -23,31 +23,33 @@
 
             <div class="d-flex flex-wrap align-items-center justify-content-center col-12 col-sm-auto">
 
-                <nav class="nav mb-1 col-12 col-sm-auto justify-content-center">
+                <nav class="nav mb-1 col-12 col-sm-auto justify-content-center align-items-center">
                     <a href="ajout-trajet.html" class="nav-link link-dark">Ajouter un trajet</a>
+
+                    <div class="dropdown text-end align-items-center">
+                        <a href="#" class=" link-dark text-decoration-none dropdown-toggle" id="menuCompte"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="images/utilisateur.svg" alt="image-utilisateur" class="rounded-circle" width="32"
+                                height="32">
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="menuCompte">
+                            <li><a class="dropdown-item" href="inscription.html">S'inscrire</a></li>
+                            <li><a class="dropdown-item" href="connexion.html">Connexion</a></li>
+                        </ul>
+                    </div>
+                    <div class="d-none dropdown text-end">
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="menuCompte"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="images/utilisateur.svg" alt="image-utilisateur" class="rounded-circle" width="32"
+                                height="32">
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="menuCompte">
+                            <li><a class="dropdown-item" href="page-utilisateur.html">Mon profil</a></li>
+                            <li><a class="dropdown-item bg-danger bg-opacity-10" href="index.html">Déconnexion</a></li>
+                        </ul>
+                    </div>
                 </nav>
 
-                <div class="dropdown d-flex justify-content-center mb-1 me-2 ms-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="choixLangage"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        FR
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownChoixLangage">
-                        <li><a href="#" class="dropdown-item">EN</a></li>
-                    </ul>
-                </div>
-
-                <div class="dropdown text-end">
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="menuCompte"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="images/utilisateur.svg" alt="image-utilisateur" class="rounded-circle" width="32"
-                            height="32">
-                    </a>
-                    <ul class="dropdown-menu text-small" aria-labelledby="menuCompte">
-                        <li><a class="dropdown-item" href="inscription.html">S'inscrire</a></li>
-                        <li><a class="dropdown-item" href="connexion.html">Connexion</a></li>
-                    </ul>
-                </div>
 
             </div>
         </div>
@@ -68,17 +70,22 @@
                         href="acceptation-trajet.html">
                         <div class="col-12 row mb-2">
                             <div class="col-8 row">
-                                <div>{{ trajet["date_depart"] }} {{ trajet["lieu_depart"] }}</div>
+                                <div>{{ new Date(trajet["date_depart"]).toLocaleDateString("fr-FR",{weekday: "short",
+                                    day: "2-digit", month: "short", year: "numeric", hour:"numeric", minute:"numeric"})
+                                    }} {{ trajet["lieu_depart"] }}</div>
                                 <div class="ms-2">&#8594;</div>
-                                <div>{{ trajet["date_depart"] }} {{ trajet["lieu_depart"] }}</div>
+                                <div>{{ new Date(trajet["date_arrivee"]).toLocaleDateString("fr-FR",{weekday: "short",
+                                    day: "2-digit", month: "short", year: "numeric", hour:"numeric", minute:"numeric"})
+                                    }} {{ trajet["lieu_depart"] }}</div>
                             </div>
-                            <div class="col-4 text-end">{{ trajet["prix_passager"] }} &euro;</div>
+                            <div class="col-4 text-end">{{ parseFloat(trajet["prix_passager"])/100 }} &euro;</div>
                         </div>
 
                         <div>
                             <div class="d-flex align-items-center">
                                 <img class="img-trajet" src="images/utilisateur.svg" alt="image utilisateur">
-                                <div class="ms-2">{{ trajet["conducteur"]["nom"] }} {{ trajet["conducteur"]["prenom"] }}</div>
+                                <div class="ms-2">{{ trajet["conducteur"]["nom"] }} {{ trajet["conducteur"]["prenom"] }}
+                                </div>
                             </div>
                             <div class="d-flex align-items-center">
                                 <img class="img-trajet" src="images/star.svg" alt="Etoile">
@@ -88,7 +95,7 @@
                     </a>
 
                 </li>
-            
+
             </ul>
         </section>
         <script>
@@ -115,28 +122,7 @@
                                 "nombre_place": 3,
                                 "information": null,
                                 "note": null
-                            },
-                            {
-                                "id": "3",
-                                "conducteur": {
-                                    "id": "2",
-                                    "id_vehicule": null,
-                                    "nom": "Valjean",
-                                    "prenom": "Jean",
-                                    "mot_de_passe": "1234",
-                                    "telephone": null,
-                                    "note": null
-                                },
-                                "lieu_depart": "tata",
-                                "lieu_arrivee": "toto",
-                                "date_depart": "2021-12-31T23:00:00.000Z",
-                                "date_arrivee": "2022-01-01T23:00:00.000Z",
-                                "prix_passager": "500",
-                                "nombre_place": 3,
-                                "information": null,
-                                "note": null
-                            }
-                        ]
+                            },]
                     }
                 }
             }).mount('#listelem')
@@ -155,9 +141,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-
-    <script async src="scripts/ajout_trajets.js"></script>
-
 </body>
 
 </html>
