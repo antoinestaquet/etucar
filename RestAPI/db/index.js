@@ -1,4 +1,3 @@
-const { cp } = require('fs');
 const { Pool } = require('pg');
 
 const config = require('./config');
