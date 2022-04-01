@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <div id="app">
+        <li v-for="fdp in message">
+            {{ fdp["nom"] }}
+
+        </li>
+    </div>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    message: [
+                        {"nom": "Ridet"},
+                        {"nom": "Ratli"},
+                        {"nom": "Benameur"},
+                ]
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>
