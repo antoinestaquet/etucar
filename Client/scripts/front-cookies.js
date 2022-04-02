@@ -1,7 +1,5 @@
-const { json } = require("express");
-
 //Ajoute un cookie Token de valeur cvalue.
-function setCookieJWT(cvalue) {
+export function setCookieJWT(cvalue) {
     const d = new Date();
     d.setTime(d.getTime() + (1000 * 60 * 20));
     let expires = "expires=" + d.toUTCString();
@@ -9,7 +7,7 @@ function setCookieJWT(cvalue) {
 }
 
 //Permet d'obtenir le cookie Token s'il existe.
-function getCookieJWT() {
+export function getCookieJWT() {
     let name = "token=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -26,7 +24,7 @@ function getCookieJWT() {
 }
 
 //Vérifie la présence d'un cookie Token. True si un token JWT valide existe False sinon. 
-function checkCookieJWT() {
+export function checkCookieJWT() {
     let token = getCookieJWT();
     if (token != "") {
         try {
