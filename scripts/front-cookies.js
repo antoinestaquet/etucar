@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 //Ajoute un cookie Token de valeur cvalue.
 function setCookieJWT(cvalue) {
     const d = new Date();
@@ -23,11 +25,18 @@ function getCookieJWT() {
     return "";
 }
 
-//Vérifie la présence d'un cookie Token. True si un token JWT existe False sinon. 
-//TODO: Vérifier la validité du token.
-function checkCookie() {
-    let token = getCookie("token");
+//Vérifie la présence d'un cookie Token. True si un token JWT valide existe False sinon. 
+function checkCookieJWT() {
+    let token = getCookieJWT();
     if (token != "") {
+        try {
+            let json = JSON.parse(token);
+            parseInt(json["id"]);
+            json["token"];
+            //Si le cookie permet de lire un attribut id convertible en entier, et un attribut token.
+        } catch (error) {
+            return false;
+        }
         return true;
     } else {
         return false;
