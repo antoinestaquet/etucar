@@ -8,6 +8,6 @@ router.get('/', trajetsCtrl.getAllTrajets);
 router.get('/recherche', trajetsCtrl.findTrajets);
 router.get('/:id', trajetsCtrl.getTrajet);
 router.post('/', auth, trajetsCtrl.createTrajet);
-router.post('/rejoindre/:id', trajetsCtrl.postRequestJoinTrajet); 
+router.post('/rejoindre/:idTrajet', auth, trajetsCtrl.rejoindreTrajet); 
 
 module.exports = router;

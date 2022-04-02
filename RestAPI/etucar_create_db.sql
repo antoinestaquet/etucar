@@ -21,11 +21,10 @@ CREATE TABLE IF NOT EXISTS utilisateur(
     email VARCHAR(50) NOT NULL UNIQUE,
     mot_de_passe VARCHAR(255) NOT NULL,
     telephone CHAR(15),
-    note SMALLINT
+    note SMALLINT,
+    code_oublie CHAR(4),
+    code_expiration TIMESTAMP
 );
-
--- @BLOCK
-ALTER TABLE utilisateur ADD email VARCHAR(50) NOT NULL UNIQUE;
 
 -- @BLOCK
 CREATE TABLE IF NOT EXISTS vehicule(
@@ -44,8 +43,8 @@ CREATE TABLE IF NOT EXISTS trajet(
     id_conducteur BIGINT NOT NULL,
     lieu_depart VARCHAR(50) NOT NULL,
     lieu_arrivee VARCHAR(50) NOT NULL,
-    date_depart TIMESTAMP WITH TIME ZONE NOT NULL,
-    date_arrivee TIMESTAMP WITH TIME ZONE NOT NULL,
+    date_depart TIMESTAMP NOT NULL,
+    date_arrivee TIMESTAMP NOT NULL,
     prix_passager BIGINT NOT NULL, 
     -- Le prix sera stocké en centimes pour éviter les problèmes lié
     -- aux virgules flottantes
@@ -56,9 +55,12 @@ CREATE TABLE IF NOT EXISTS trajet(
 );
 
 -- @BLOCK
+CREATE TYPE status AS ENUM ('refus', 'en attente', 'accepté');
+
 CREATE TABLE IF NOT EXISTS liste_passager(
     id_utilisateur BIGINT NOT NULL,
     id_trajet BIGINT NOT NULL,
+    status_demande status NOT NULL,
     PRIMARY KEY (id_utilisateur, id_trajet),
     FOREIGN KEY (id_utilisateur)
         REFERENCES utilisateur (id),
