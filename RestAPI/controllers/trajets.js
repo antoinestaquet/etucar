@@ -66,11 +66,32 @@ exports.findTrajets = async (req, res, next) => {
 exports.getTrajet = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const { rows } = await db.query('SELECT * FROM trajet WHERE id = $1', [id]);
-        if (rows.length == 0) {
-            return res.status(204).json({ error: "No content" });
+        let { rows } = await db.query('SELECT * FROM trajet WHERE id = $1', [id]);
+        let reponse = rows[0];
+        if (reponse.length == 0) {
+            return res.status(204).json({ error: "Pas de trajet." });
         }
-        res.status(200).json(rows[0]);
+
+        // récupère le nom / prenom du conducteur
+        rows = await db.query('SELECT nom, prenom FROM utilisateur WHERE id = $1', [reponse.id_conducteur]);
+        let user = rows.rows;
+        if (rows.length == 0) {
+            return res.status(204).json({ error: "Pas d'utilisateur correspondant au trajet." });
+        }
+        reponse.user = {
+            nom: user[0].nom,
+            prenom: user[0].prenom
+        }
+
+        // récupère le véhicule du conducteur
+        rows = await db.query('SELECT nom FROM vehicule WHERE id_utilisateur = $1', [reponse.id_conducteur]);
+        let vehicule = rows.rows;
+
+        reponse.vehicule = {
+            nom: vehicule[0].nom
+        };
+
+        res.status(200).json(reponse);
     } catch (err) {
         console.log(err.stack);
         res.status = 500 // Internal Server Error
