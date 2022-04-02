@@ -7,6 +7,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+
 app.use(
   cors({
     origin: "*"
@@ -14,7 +15,7 @@ app.use(
 )
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/utilisateur', usersRouter);
 app.use('/trajet', trajetsRouter);

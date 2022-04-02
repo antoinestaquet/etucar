@@ -3,7 +3,7 @@ export function setCookieJWT(cvalue) {
     const d = new Date();
     d.setTime(d.getTime() + (1000 * 60 * 20));
     let expires = "expires=" + d.toUTCString();
-    document.cookie = "token=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = "token=" + cvalue + ";" + expires + "; SameSite=None; path=/";
 }
 
 //Permet d'obtenir le cookie Token s'il existe.
