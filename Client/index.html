@@ -58,28 +58,25 @@
     <main>
         <section class="d-flex text-center justify-content-center align-items-center" style="height: 90vh;
                 background-color:skyblue;">
-            <div class="w-75">
+            <form id="recherche-form" class="w-75" novalidate>
                 <div class="row">
                     <div class="row col-sm">
-                        <input type="time" id="heure_arrivee" class="form-control">
+                        <input type="text" name="lieu_depart" id="lieu_depart" class="form-control" placeholder="Lieu de départ">
                     </div>
                     <div class="row col-sm">
-                        <input type="text" id="lieu_depart" class="form-control" placeholder="Lieu de départ">
+                        <input type="text" name="lieu_arrivee" id="destination" class="form-control" placeholder="Destination">
                     </div>
                     <div class="row col-sm">
-                        <input type="text" id="destination" class="form-control" placeholder="Destination">
-                    </div>
-                    <div class="row col-sm">
-                        <input id="jour" type="date" class="form-control">
+                        <input id="jour" name="date_depart" type="date" class="form-control">
                     </div>
                 </div>
                 <div class="text-center mt-2">
-                    <button id="valid" class="btn btn-primary btn-lg">Trouver un covoiturage</button>
+                    <button type="submit" id="valid" class="btn btn-primary btn-lg">Trouver un covoiturage</button>
                 </div>
                 <div class="text-center mt-2">
                     <a href="liste-trajet.html">Lien temporaire pour voir la liste des trajets</a>
                 </div>
-            </div>
+            </form>
         </section>
 
         <section class="container border-bottom border-to py-3">

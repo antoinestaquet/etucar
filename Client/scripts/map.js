@@ -274,7 +274,7 @@ function validerTrajet() {
 
 window.onload = async function () {
     // Permet de passer outre les verifications | A enlever en production
-    const DEBUG = false;
+    const DEBUG = true;
     
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
@@ -451,7 +451,6 @@ window.onload = async function () {
         event.preventDefault();
 
         if(formSupp.checkValidity()){
-            
             const infoSupp = document.querySelector("#info-supp");
             infoSupp.classList.add("d-none")
             const verfication = document.querySelector("#verification");
@@ -469,8 +468,6 @@ window.onload = async function () {
             verifPlace.value = document.querySelector("#nombre-place").value;
             const verifInfoPassager = document.querySelector("#verif-info-passager");
             verifInfoPassager.value = document.querySelector("#info-pour-passager").value;
-
-
         }
         
         formSupp.classList.add("was-validated")
@@ -484,7 +481,7 @@ window.onload = async function () {
         formTrajet.reset();
         formSupp.reset();
         formVerif.reset();
-        window.location.assign("index.html")
+        window.location.assign("index.html"); // Redirige à la page d'accueil
     }
 
 
