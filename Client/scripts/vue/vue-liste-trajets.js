@@ -18,5 +18,6 @@ Vue.createApp({
     },
     beforeMount() {
         this.trajets = JSON.parse(sessionStorage.getItem('trajets'));
+        console.log(this.trajets);
     }
 }).mount('#vue-trajet')

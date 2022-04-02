@@ -25,11 +25,11 @@ exports.findTrajets = async (req, res, next) => {
     }
 
     let query = "SELECT * FROM TRAJET " +
-        "WHERE lieu_depart LIKE $1 " +
-        "and lieu_arrivee LIKE $2 " +
+        "WHERE LOWER(lieu_depart) LIKE LOWER($1) " +
+        "and LOWER(lieu_arrivee) LIKE LOWER($2) " +
         "and DATE(date_depart) = $3";
     try {
-        const { rows } = await db.query(query, ['%' + lieu_depart + '%', '%' + lieu_arrivee + '%', date_depart]);
+        const { rows } = await db.query(query, ['%'+lieu_depart+'%', '%'+lieu_arrivee+'%', date_depart]);
         const trajets = rows;
 
         if (trajets.length == 0) {
@@ -38,7 +38,7 @@ exports.findTrajets = async (req, res, next) => {
 
         for (let i = 0; i < trajets.length; i++) {
             try {
-                const { rows } = await db.query("SELECT * FROM utilisateur WHERE id = $1", [trajets[i].id_conducteur]);
+                const { rows } = await db.query("SELECT nom, prenom FROM utilisateur WHERE id = $1", [trajets[i].id_conducteur]);
                 const user = rows;
 
                 if (user.length == 0) {
