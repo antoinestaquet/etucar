@@ -1,3 +1,15 @@
+//Décode le token
+export function parseJwt () {
+    let token = getCookieJWT();
+    if (token) {
+        try {
+            return JSON.parse(window.atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    }
+};
+
 //Ajoute un cookie Token de valeur cvalue.
 export function setCookieJWT(cvalue) {
     const d = new Date();

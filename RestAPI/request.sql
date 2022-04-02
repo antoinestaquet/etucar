@@ -11,7 +11,7 @@ INSERT INTO utilisateur(nom, prenom, mot_de_passe, email)
 
 -- @BLOCK test
 INSERT INTO trajet(id_conducteur, lieu_depart, lieu_arrivee, date_depart, date_arrivee, prix_passager, nombre_place) 
-    VALUES(1, 'tata', 'toto', DATE '2022-01-02', DATE '2022-01-03', 500, 3);
+    VALUES(13, 'tata', 'toto', DATE '2022-01-02', DATE '2022-01-03', 500, 3);
 
 -- @BLOCK DROP
 DELETE FROm trajet WHERE id = 2;
@@ -29,22 +29,6 @@ select * from utilisateur
 SELECT * FROM trajet, liste_passager
 WHERE liste_passager.id_trajet = trajet.id
 and liste_passager.id_utilisateur = $1
-
-const t = {
-    demandeur: {
-        nom: 'toto',
-        prenom: 'tata',
-        note: 0
-    },
-    trajet: {
-        id_conducteur: 3,
-        date_depart: '2020-01-01',
-        date_arrivee: '2069-01-01',
-        lieu_depart: 'Bureau de ridet',
-        lieu_arrivee: 'enfer',
-        prix: 5000
-    }
-}
 
 --@BLOCK
 SELECT u.nom, u.prenom, u.note, t.id_conducteur, 

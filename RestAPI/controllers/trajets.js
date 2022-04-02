@@ -27,7 +27,7 @@ exports.findTrajets = async (req, res, next) => {
     let query = "SELECT * FROM TRAJET " +
         "WHERE lieu_depart LIKE $1 " +
         "and lieu_arrivee LIKE $2 " +
-        "and date_depart = $3";
+        "and DATE(date_depart) = $3";
     try {
         const { rows } = await db.query(query, ['%' + lieu_depart + '%', '%' + lieu_arrivee + '%', date_depart]);
         const trajets = rows;
@@ -85,14 +85,16 @@ exports.getTrajet = async (req, res, next) => {
 exports.createTrajet = async (req, res, next) => {
     const {
         id_conducteur,
-        lieu_depart,
-        lieu_arrivee,
-        date_depart,
+        lieu_depart, 
+        lieu_arrivee, 
+        date_depart, 
         date_arrivee,
-        prix_passager,
-        nombre_place,
-        information
+        prix_passager, 
+        nombre_place, 
+        information 
     } = req.body;
+
+    console.log(req.body);
 
     if (id_conducteur == undefined || lieu_depart == undefined || lieu_arrivee == undefined
         || date_depart == undefined || date_arrivee == undefined || prix_passager == undefined
@@ -100,7 +102,8 @@ exports.createTrajet = async (req, res, next) => {
         return res.status(400).json({ error: "Bad request" });
     }
 
-    if (req.body.id !== req.auth.userId) {
+
+    if (req.body.id_conducteur !== req.auth.userId) {
         return res.status(401).json({ error: "Utilisateur non authorisé." })
     }
 
@@ -113,7 +116,7 @@ exports.createTrajet = async (req, res, next) => {
             lieu_arrivee,
             date_depart,
             date_arrivee,
-            prix_passager,
+            prix_passager * 100,
             nombre_place,
             information]);
 

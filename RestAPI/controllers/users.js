@@ -48,10 +48,11 @@ exports.inscription = async (req, res, next) => {
             note: req.body.note != undefined ? req.body.note : 0
         }
         await db.query(query, [user.nom, user.prenom, user.email, user.mot_de_passe, user.telephone, user.note]);
-        if (req.body.vehicule) {
-            const { id_utilisateur, nom, nombre_place } = req.body.vehicule;
+        if (req.body.nomVehicule) {
+            const { rows } = await db.query("SELECT id FROM utilisateur WHERE email = $1", [user.email]);
+            const id = rows[0].id;
             let query = "INSERT INTO vehicule(id_utilisateur, nom, nombre_place) VALUES($1, $2, $3)";
-            await db.query(query, [id_utilisateur, nom, nombre_place]);
+            await db.query(query, [id, req.body.nomVehicule, req.body.nombrePlace]);
             res.status(201).json({ success: "Created" });
         } else {
             res.status(201).json({ success: "Created" });

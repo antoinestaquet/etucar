@@ -275,6 +275,7 @@ function validerTrajet() {
 window.onload = async function () {
     // Permet de passer outre les verifications | A enlever en production
     const DEBUG = true;
+    let timeToDest = 0;
     
     let geoapifyKey = await fetchApiKey("geoapify-api");
 
@@ -345,6 +346,7 @@ window.onload = async function () {
                     }).addTo(map)
                         .bindPopup(() => {
                             // Round pour enlever les secondes
+                            timeToDest = result.features[0].properties.time;
                             let minute = result.features[0].properties.time / 60;
                             let heure = 0;
                             let duree = "";
@@ -458,6 +460,17 @@ window.onload = async function () {
 
             // remplir la form de validation :
 
+            const verifDateDepart  = document.querySelector("#verif-date-depart");
+            verifDateDepart.value  = document.querySelector("#date-depart").value;
+            console.log(document.querySelector("#date-depart").value);
+
+            const verifDateArrivee = document.querySelector("#verif-date-arrivee");
+            
+            let depart = new Date(verifDateDepart.value);
+            let arrivee = new Date(depart.getTime() + timeToDest * 1000);
+            arrivee = (new Date(arrivee.getTime() - arrivee.getTimezoneOffset() * 60000).toISOString()).slice(0, -8);
+            verifDateArrivee.value = arrivee;
+
             const verifDepart  = document.querySelector("#verif-depart");
             verifDepart.value  = startPosition.formatted;
             const verifArrivee = document.querySelector("#verif-arrivee");
@@ -472,8 +485,6 @@ window.onload = async function () {
         
         formSupp.classList.add("was-validated")
     })
-
-    // Partie verification
 
     // Si l'utilisateur ne valide pas 
     const bouttonAnnuler = document.querySelector("#btn-annuler-verif")

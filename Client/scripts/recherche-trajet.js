@@ -1,11 +1,12 @@
 const form = document.querySelector("#recherche-form")
+import * as cookie from "./front-cookies.js"
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    var formdata = new FormData(form);
-    var url = new URL('http://localhost:3000/trajet/recherche');
-    var params = [...formdata];
+    let formdata = new FormData(form);
+    let url = new URL('http://localhost:3000/trajet/recherche');
+    let params = [...formdata];
     url.search = new URLSearchParams(params).toString();
 
     fetch(url, {
