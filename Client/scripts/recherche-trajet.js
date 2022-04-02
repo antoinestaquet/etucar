@@ -19,7 +19,7 @@ form.addEventListener("submit", (e) => {
             }
         })
         .then((data) => {
-            sessionStorage.setItem('trajets', data);
+            sessionStorage.setItem('trajets', JSON.stringify(data));
             document.location.href = "liste-trajet.html";
         })
         .catch((err) => {

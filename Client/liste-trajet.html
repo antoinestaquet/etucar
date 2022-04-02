@@ -63,18 +63,16 @@
             </div>
 
 
-            <ul class="list-unstyled" id="listelem">
+            <ul class="list-unstyled" id="vue-trajet">
                 <li v-for="trajet in trajets">
 
                     <a class="row trajet border border-2 rounded text-decoration-none text-dark mb-2 py-4 justify-content-center"
                         href="acceptation-trajet.html">
                         <div class="col-12 row mb-2">
                             <div class="col-8 row">
-                                <div>{{  formaterDate(trajet) }} {{ trajet["lieu_depart"] }}</div>
+                                <div>{{  formaterDate(trajet, "date_depart") }} {{ trajet["lieu_depart"] }}</div>
                                 <div class="ms-2">&#8594;</div>
-                                <div>{{ new Date(trajet["date_arrivee"]).toLocaleDateString("fr-FR",{weekday: "short",
-                                    day: "2-digit", month: "short", year: "numeric", hour:"numeric", minute:"numeric"})
-                                    }} {{ trajet["lieu_depart"] }}</div>
+                                <div>{{ formaterDate(trajet, "date_arrivee")}} {{ trajet["lieu_arrivee"] }}</div>
                             </div>
                             <div class="col-4 text-end">{{ parseFloat(trajet["prix_passager"])/100 }} &euro;</div>
                         </div>
@@ -96,38 +94,6 @@
 
             </ul>
         </section>
-        <script>
-            Vue.createApp({
-                data() {
-                    return {
-                        trajets:[
-                            {
-                                "id": "3",
-                                "conducteur": {
-                                    "id": "2",
-                                    "id_vehicule": null,
-                                    "nom": "Valjean",
-                                    "prenom": "Jean",
-                                    "mot_de_passe": "1234",
-                                    "telephone": null,
-                                    "note": null
-
-                    }
-                }]}},
-                computed: {
-                    formaterDate(trajet) {
-                        return new Date(trajet["date_depart"]).toLocaleDateString("fr-FR", {
-                            weekday: "short",
-                            day: "2-digit", 
-                            month: "short", 
-                            year: "numeric", 
-                            hour: "numeric", 
-                            minute: "numeric"
-                        });
-                    }
-                }
-            }).mount('#listelem')
-        </script>
     </main>
 
     <!--Footer-->
@@ -144,6 +110,7 @@
         crossorigin="anonymous"></script>
 
     <script type="module" src="scripts/header.js"></script>
+    <script src="scripts/vue/vue-liste-trajets.js"></script>
 
 </body>
 
