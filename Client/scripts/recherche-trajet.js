@@ -15,8 +15,9 @@ form.addEventListener("submit", (e) => {
     fetch(url,{
         method: "GET"
     })
-    .then((res)=>res.json())
+    .then((res) => {
+        
+    })
     .then((data)=>console.log(data));
-    
-    
+
 });
