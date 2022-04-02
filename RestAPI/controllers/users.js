@@ -34,21 +34,21 @@ exports.getUser = async (req, res, next) => {
  */
 exports.inscription = async (req, res, next) => {
     try {
-        const hash = await bcrypt.hash(req.body.user.password, 10);
+        const hash = await bcrypt.hash(req.body.password, 10);
 
         let query = "INSERT INTO utilisateur(nom, prenom, email, mot_de_passe, telephone, note) " +
             "VALUES($1, $2, $3, $4, $5, $6)";
 
         const user = {
-            nom: req.body.user.nom,
-            prenom: req.body.user.prenom,
-            email: req.body.user.email,
+            nom: req.body.nom,
+            prenom: req.body.prenom,
+            email: req.body.email,
             mot_de_passe: hash,
-            telephone: req.body.user.telephone,
-            note: req.body.user.note != undefined ? req.body.user.note : 3
+            telephone: req.body.telephone,
+            note: req.body.note != undefined ? req.body.note : 0
         }
         await db.query(query, [user.nom, user.prenom, user.email, user.mot_de_passe, user.telephone, user.note]);
-        if (req.body.vehicule != undefined) {
+        if (req.body.vehicule) {
             const { id_utilisateur, nom, nombre_place } = req.body.vehicule;
             let query = "INSERT INTO vehicule(id_utilisateur, nom, nombre_place) VALUES($1, $2, $3)";
             await db.query(query, [id_utilisateur, nom, nombre_place]);
@@ -68,8 +68,8 @@ exports.connexion = async (req, res, next) => {
         if (rows.length == 0) {
             return res.status(401).json({ error: "Pas de compte existant avec cet email." })
         }
-        const user = rows[0];
 
+        const user = rows[0];
         try {
             const valid = await bcrypt.compare(req.body.password, user.mot_de_passe);
             if (!valid) {
