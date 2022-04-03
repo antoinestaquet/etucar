@@ -59,13 +59,8 @@ exports.findTrajets = async (req, res, next) => {
     }
 };
 
-exports.getUserDemandes = async (req.res.next) = {
-    
-}
-
 exports.getUserTrajet = async (req, res, next) => {
     const { id } = req.params;
-    console.log(id);
     
     try {
         let query = "SELECT * FROM trajet " +
@@ -166,8 +161,6 @@ exports.createTrajet = async (req, res, next) => {
         information
     } = req.body;
 
-    console.log(req.body);
-
     if (id_conducteur == undefined || lieu_depart == undefined || lieu_arrivee == undefined
         || date_depart == undefined || date_arrivee == undefined || prix_passager == undefined
         || nombre_place == undefined) {
@@ -245,17 +238,22 @@ exports.rejoindreTrajet = async (req, res, next) => {
  * Retourne toutes les demandes en attente de l'utilisateur
  */
 exports.getDemandesEnAttente = async (req, res, next) => {
+    const { id } = req.params;
     try {
-        if (req.body.id !== req.auth.userId) {
+        if (id !== req.auth.userId) {
             return res.status(401).json({ error: "Utilisateur non authorisé." })
         }
 
         let query = "SELECT u.nom, u.prenom, u.note, t.id_conducteur, " +
-            "t.date_depart, t.date_arrivee, t.lieu_depart, t.lieu_arrivee, t.prix " +
+            "t.date_depart, t.date_arrivee, t.lieu_depart, t.lieu_arrivee, t.prix_passager " +
             "FROM utilisateur u, trajet t, liste_passager l " +
             "WHERE t.id_conducteur = $1 and l.id_trajet = t.id " +
             "and l.status_demande = 'en attente'";
-        const { rows } = await db.query(query, [req.body.id]);
+        const { rows } = await db.query(query, [id]);
+
+        if(rows.length == 0){
+            return res.status(204).json({ error: "Pas de trajet" });
+        }
 
         res.status(200).json(rows);
 

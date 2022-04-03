@@ -13,17 +13,21 @@ Vue.createApp({
     },
     beforeMount() {
 
-        const init = {
-            method: "GET"
-        }
-
+        
         let decoded = cookie.parseJwt();
-
+        
         if (decoded === false) {
             document.location.href = "index.html";
         }
-
+        
         let id = decoded.userId;
+
+        const init = {
+            method: "GET",        
+            headers: new Headers({
+                'Authorization': 'Bearer ' + cookie.getCookieJWT()
+            }),
+        }
 
         fetch(`http://localhost:3000/trajet/user/${id}`, init)
             .then((res) => {

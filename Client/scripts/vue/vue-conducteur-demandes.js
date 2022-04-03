@@ -1,30 +1,38 @@
-
+import * as cookie from "../front-cookies.js"
 
 Vue.createApp({
     data() {
         return {
-            src: [{
-                "nom": "toto",
-                "prenom": "tata",
-                "note": "0",
-                "id_conducteur": "3",
-                "date_depart": "2020-01-01",
-                "date_arrivee": "2069-01-01",
-                "lieu_depart": "Bureau de ridet",
-                "lieu_arrivee": "enfer",
-                "prix": "5000"
-            },
-            {
-                "nom": "toto",
-                "prenom": "tata",
-                "note": "0",
-                "id_conducteur": "3",
-                "date_depart": "2020-01-01",
-                "date_arrivee": "2069-01-01",
-                "lieu_depart": "Bureau de ridet",
-                "lieu_arrivee": "enfer",
-                "prix": "5000"
-            }]
+            trajetsEnAttente: []
         }
+    },
+    beforeMount() {
+        let decoded = cookie.parseJwt();
+        
+        if (decoded === false) {
+            document.location.href = "index.html";
+        }
+        
+        let id = decoded.userId;
+
+        const init = {
+            method: "GET",        
+            headers: new Headers({
+                'Authorization': 'Bearer ' + cookie.getCookieJWT()
+            }),
+        }
+
+        fetch(`http://localhost:3000/trajet/demandes/${id}`, init)
+            .then((res) => {
+                if (res.status == 200) {
+                    return res.json();
+                } else {
+                    throw new Error(res);
+                }
+            }).then((data) => {
+                this.trajets = data;
+            }).catch((err) => {
+                console.log(err);
+            })
     }
 }).mount('#vue-conducteur-demandes')
