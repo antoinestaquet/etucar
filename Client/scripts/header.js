@@ -14,9 +14,12 @@ window.addEventListener('load', (e) => {
 
     const deconnexion = document.querySelector("#deconnexion");
 
-    deconnexion.addEventListener("click", () => {
-        document.cookie = 'token=; Max-Age=-999999999; path=/;';
-        document.location.href = "index.html"
-    });
+    if(deconnexion){
+        deconnexion.addEventListener("click", () => {
+            document.cookie = 'token=; Max-Age=-999999999; path=/;';
+            document.location.href = "index.html"
+        });
+    }
+
 })
 
