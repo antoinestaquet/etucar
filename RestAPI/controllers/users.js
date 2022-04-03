@@ -16,7 +16,7 @@ const tranport = nodemailer.createTransport({
 exports.getUser = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const { rows } = await db.query("SELECT id, id_vehicule, nom, prenom, telephone, note, email FROM utilisateur WHERE id = $1", [id]);
+        const { rows } = await db.query("SELECT id, nom, prenom, telephone, note, email FROM utilisateur WHERE id = $1", [id]);
 
         if (rows.length > 0) {
             res.status(200).json(rows[0]);

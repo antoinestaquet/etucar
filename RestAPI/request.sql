@@ -36,3 +36,9 @@ t.date_depart, t.date_arrivee, t.lieu_depart, t.lieu_arrivee, t.prix
 FROM utilisateur u, trajet t, liste_passager l
 WHERE t.id_conducteur = $1 and l.id_trajet = t.id
 and l.status_demande = 'en attente';
+
+--@BLOCK
+--Retourne tous les trajets avec l'utilisateur
+SELECT t.* FROM trajet t, liste_passager lp
+WHERE t.id_conducteur = 13
+OR (lp.id_trajet = t.id AND lp.id_utilisateur = 13)

@@ -7,6 +7,8 @@ export function parseJwt () {
         } catch (e) {
             return null;
         }
+    } else {
+        return false;
     }
 };
 

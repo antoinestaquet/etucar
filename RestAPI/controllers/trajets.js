@@ -29,7 +29,7 @@ exports.findTrajets = async (req, res, next) => {
         "and LOWER(lieu_arrivee) LIKE LOWER($2) " +
         "and DATE(date_depart) = $3";
     try {
-        const { rows } = await db.query(query, ['%'+lieu_depart+'%', '%'+lieu_arrivee+'%', date_depart]);
+        const { rows } = await db.query(query, ['%' + lieu_depart + '%', '%' + lieu_arrivee + '%', date_depart]);
         const trajets = rows;
 
         if (trajets.length == 0) {
@@ -58,6 +58,58 @@ exports.findTrajets = async (req, res, next) => {
         res.status(500).json({ error: err });
     }
 };
+
+exports.getUserDemandes = async (req.res.next) = {
+    
+}
+
+exports.getUserTrajet = async (req, res, next) => {
+    const { id } = req.params;
+    console.log(id);
+    
+    try {
+        let query = "SELECT * FROM trajet " +
+        "WHERE id_conducteur = $1";
+        
+        let { rows } = await db.query(query, [id]);
+        let trajets = rows
+        
+        
+        query = "SELECT t.* FROM trajet t, liste_passager lp "+
+        "WHERE t.id = lp.id_trajet AND lp.id_utilisateur = $1";
+        
+        rows = await db.query(query, [id]);
+        rows = rows.rows;
+        
+        trajets = trajets.concat(rows);
+
+        if(trajets.length == 0){
+            return res.status(204).json({ error: "Pas de trajet." });
+        }
+
+        for (let i = 0; i < trajets.length; i++) {
+            try {
+                const { rows } = await db.query("SELECT nom, prenom FROM utilisateur WHERE id = $1", [trajets[i].id_conducteur]);
+                const user = rows;
+
+                if (user.length == 0) {
+                    return res.status(204).json({ error: "Pas d'utilisateur trouvé" });
+                }
+
+                trajets[i].conducteur = user[0];
+            } catch (err) {
+                console.log(err);
+                res.status(500).json({ error: err });
+            }
+        }
+
+        res.status(200).json(trajets);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ error: err })
+    }
+}
 
 /** 
  * GET 
@@ -93,9 +145,8 @@ exports.getTrajet = async (req, res, next) => {
 
         res.status(200).json(reponse);
     } catch (err) {
-        console.log(err.stack);
-        res.status = 500 // Internal Server Error
-        res.send({ err });
+        console.log(err);
+        res.status(500).send({ error: err })
     }
 };
 
@@ -106,13 +157,13 @@ exports.getTrajet = async (req, res, next) => {
 exports.createTrajet = async (req, res, next) => {
     const {
         id_conducteur,
-        lieu_depart, 
-        lieu_arrivee, 
-        date_depart, 
+        lieu_depart,
+        lieu_arrivee,
+        date_depart,
         date_arrivee,
-        prix_passager, 
-        nombre_place, 
-        information 
+        prix_passager,
+        nombre_place,
+        information
     } = req.body;
 
     console.log(req.body);
@@ -200,10 +251,10 @@ exports.getDemandesEnAttente = async (req, res, next) => {
         }
 
         let query = "SELECT u.nom, u.prenom, u.note, t.id_conducteur, " +
-        "t.date_depart, t.date_arrivee, t.lieu_depart, t.lieu_arrivee, t.prix "+
-        "FROM utilisateur u, trajet t, liste_passager l "+
-        "WHERE t.id_conducteur = $1 and l.id_trajet = t.id "+
-        "and l.status_demande = 'en attente'";
+            "t.date_depart, t.date_arrivee, t.lieu_depart, t.lieu_arrivee, t.prix " +
+            "FROM utilisateur u, trajet t, liste_passager l " +
+            "WHERE t.id_conducteur = $1 and l.id_trajet = t.id " +
+            "and l.status_demande = 'en attente'";
         const { rows } = await db.query(query, [req.body.id]);
 
         res.status(200).json(rows);
