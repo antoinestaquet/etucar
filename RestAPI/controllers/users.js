@@ -194,19 +194,31 @@ function getRandomInt(min, max) {
 
 exports.forgottenPassword = async (req, res, next) => {
     try {
-        if (req.body.id !== req.auth.userId) {
-            return res.status(401).json({ error: "Utilisateur non authorisé." })
-        }
 
-        const { rows } = await db.query("SELECT id FROM utilisateur WHERE email = $1", [req.body.mail]);
+        console.log(req.body);
+        const { rows } = await db.query("SELECT id, code_expiration FROM utilisateur WHERE email = $1", [req.body.mail]);
         if (rows.length == 0) {
             return res.status(401).json({ error: "Pas de compte existant avec cet email." })
         }
 
+        let dateExpiration = new Date(rows[0].code_expiration).valueOf();
+        let dateActuel = new Date().valueOf();
+
+
+
+        console.log(new Date(dateExpiration));
+        console.log(new Date(dateActuel));
+
+        if(dateExpiration > dateActuel){
+            console.log(dateExpiration > dateActuel);
+            return res.status(200).json({
+                codeEnvoye: true,
+                message: "Un code a déjà envoyé"});
+        }
+        
         let codeOubli = getRandomInt(1000, 9999);
 
-        console.log(codeOubli);
-        await db.query("UPDATE utilisateur SET code_oublie = $1, code_expiration = CURRENT_TIMESTAMP WHERE email = $2", [codeOubli, req.body.mail]);
+        await db.query("UPDATE utilisateur SET code_oublie = $1, code_expiration = CURRENT_TIMESTAMP + (20 * interval '1 minute') WHERE email = $2", [codeOubli, req.body.mail]);
 
         tranport.sendMail({
             from: mail.user,
@@ -216,6 +228,8 @@ exports.forgottenPassword = async (req, res, next) => {
             <div>${codeOubli}<div>
             `
         })
+        
+        
 
         res.status(200).json({ succes: `Email envoyé à ${req.body.mail}` });
 
@@ -228,32 +242,28 @@ exports.forgottenPassword = async (req, res, next) => {
 
 exports.forgottenPasswordChange = async (req, res, next) => {
     try {
-
-        if (req.body.id !== req.auth.userId) {
-            return res.status(401).json({ error: "Utilisateur non authorisé." })
-        }
-
-        console.log(req.body.mail);
-        const { rows } = await db.query("SELECT code_oublie, code_expiration FROM utilisateur WHERE email = $1", [req.body.mail]);
+        
+        console.log(req.body);
+        let { rows } = await db.query("SELECT code_oublie, code_expiration FROM utilisateur WHERE email = $1", [req.body.mail]);
 
         if (rows.length == 0) {
             return res.status(401).json({ error: "Pas de compte existant avec cet email." })
         }
 
-
-        if (rows[0].code_expiration === null) {
+        console.log(rows[0]);
+        if (!rows[0].code_expiration || !rows[0].code_oublie) {
             return res.status(401).json({ error: "Code expiré." })
         }
 
         let dateExpiration = new Date(rows[0].code_expiration).valueOf();
-        let dateActuel = new Date().valueOf;
+        let dateActuel = new Date().valueOf();
 
-        if (dateExpiration >= dateActuel) {
+        if (dateExpiration < dateActuel) {
             await db.query("UPDATE utilisateur SET code_oublie = NULL, code_expiration = NULL WHERE email = $1");
             return res.status(401).json({ error: "Code expiré." });
         }
-
-        if (req.body.code === rows[0].code_oublie) {
+        
+        if (req.body.code !== rows[0].code_oublie) {
             return res.status(401).json({ error: "Code incorrect." })
         }
 
@@ -262,10 +272,13 @@ exports.forgottenPasswordChange = async (req, res, next) => {
         await db.query("UPDATE utilisateur SET mot_de_passe = $1 WHERE email = $2", [hash, req.body.mail]);
         await db.query("UPDATE utilisateur SET code_oublie = NULL, code_expiration = NULL WHERE email = $1", [req.body.mail]);
 
+        rows = await db.query("SELECT id FROM utilisateur WHERE email = $1", [req.body.mail]);
+        rows = rows.rows;
+
         res.status(200).json({
-            userId: user.id,
+            userId: rows.id,
             token: jwt.sign(
-                { userId: user.id },
+                { userId: rows.id },
                 token_secret,
                 { expiresIn: 60 * 20 }
             ),

@@ -14,7 +14,7 @@ router.post('/connexion', usersCtrl.connexion);
 router.put('/modifierMail', auth, usersCtrl.modifyMail);
 router.put('/modifierTelephone', auth, usersCtrl.modifyPhone);
 router.put('/modifierMotDePasse', auth, usersCtrl.modifyPassword);
-router.put('/motDePasse/oublie', auth, usersCtrl.forgottenPassword);
-router.put('/motDePasse/modifierAvecCode', auth, usersCtrl.forgottenPasswordChange);
+router.put('/motDePasse/oublie', usersCtrl.forgottenPassword);
+router.put('/motDePasse/modifierAvecCode', usersCtrl.forgottenPasswordChange);
 
 module.exports = router;
