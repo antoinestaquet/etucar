@@ -1,9 +1,9 @@
 /*
 
-Vehicule(PK: idVehicule, nom, nombreDePlace, FK: idUtilisateurs)
-Utilisateurs(PK: idUtilisateur, nom, prenom, motDePasse, telephone, note, FK: idVehicule)
-Trajet(PK: idTrajet, lieuDepart, lieuArrive, dateDepart, dateArrivee, prixPassager, nombreDePlace, information, note, FK: Conducteur)
-ListePassager(PK: idUtilisateur,PK: idTrajet)
+    Vehicule(PK: idVehicule, nom, nombreDePlace, FK: idUtilisateurs)
+    Utilisateurs(PK: idUtilisateur, nom, prenom, motDePasse, telephone, note, FK: idVehicule)
+    Trajet(PK: idTrajet, lieuDepart, lieuArrive, dateDepart, dateArrivee, prixPassager, nombreDePlace, information, note, FK: Conducteur)
+    ListePassager(PK: idUtilisateur,PK: idTrajet)
 */
 
 -- Création des tables
