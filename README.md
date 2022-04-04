@@ -1,7 +1,7 @@
 # etucar
 Projet universitaire autour d'une application de covoiturage
 
-## Afin de pouvoir faire fonctionner le site, plusieurs étapes sont nécéssaire.
+## Afin de pouvoir faire fonctionner le site, plusieurs étapes sont nécessaire.
 
 ### > Dans le dossier Client
 Nécessite d'avoir la clef API (c'est gratuit) :
@@ -17,7 +17,7 @@ Une fois la clef, il suffit de créer le dossier settings et de mettre le fichie
 ```
 
 ### > Dans le dossier RestAPI : 
-1. Se crééer un compte gmail et activer l'option "accès aux applications moins sécurisées" se situant dans le menu sécurité du compte
+1. Se créer un compte gmail et activer l'option "accès aux applications moins sécurisées" se situant dans le menu sécurité du compte
 
 2. Créer le fichier "config.json"
 
